@@ -21,9 +21,6 @@
                 right: initial;
                 font-size: 6vh;
             }
-            body > .reveal:has(.first-child.present) > .slide-number {
-                display: hidden;
-            }
             .reveal pre code.hljs {
                 max-height: 500px;
             }
@@ -66,721 +63,84 @@
 
                         Notes:
 
-                        Почти каждый программист хоть раз в жизни задумывается о том, что неплохо бы
-                        создать свой язык программирования. Мотивация у людей разная: кому-то не дают
-                        покоя лавры создателей уже известных языков, кто-то жаждет исправить все-все
-                        фатальные недостатки в том языке, на котором пишет сейчас, а кто-то, как я,
-                        просто хочет повеселиться.
+                        Сегодня я расскажу вам про разработку своего собственного языка
+                        программирования.
 
-                        И вот, как-то раз нам с товарищем стало очень скучно, и поэтому мы решили взять
-                        и написать свой язык программирования. Время было очень тёмное, и _некому было
-                        нас остановить_. Поэтому мы взяли и написали свой язык программирования!
+                        Почти каждый программист хоть раз в жизни задумывается о том, что неплохо бы
+                        создать свой язык программирования. Мотивация у людей разная: кому-то не
+                        дают покоя лавры создателей уже известных языков, кто-то жаждет исправить
+                        все-все фатальные недостатки в том языке, на котором пишет сейчас, а кто-то,
+                        как я, просто хочет повеселиться.
+
+                        И вот, как-то раз нам с товарищем стало очень скучно, и поэтому мы решили
+                        взять и написать свой язык программирования. И вот так нам в тот раз
+                        повезло, что _остановить нас было некому_. Поэтому мы взяли и написали свой
+                        язык программирования!
                     </script>
                 </section>
                 <section>
                     <h2>☭ Maintenance section ☭</h2>
                     <ul>
-                        <li><a href="#" onclick="javascript:window.location.hash += '&show-notes';window.location.reload();return false;">Show slide notes</a></li>
-                        <li><a href="#" onclick="javascript:window.location.hash += '&print-pdf';window.location.reload();return false;">Snter PDF mode</a></li>
+                        <li><a href="#" onclick="javascript:window.location.hash = 'show-notes';window.location.reload();return false;">Show slide notes</a></li>
+                        <li><a href="#" onclick="javascript:window.location.search = 'print-pdf';return false;">Snter PDF mode</a></li>
                     </ul>
                 </section>
             </section>
                 <section data-markdown class="tralala">
                     <script type="text/template">
-                        ## Технологии
+                        ## **LENS**: Language for Embeddable .NET Scripting
 
-                        - C++/CLI
-                        - COM
-                        - P/Invoke
+                        ```fsharp
+                        using System.Drawing
+
+                        pure fun dist:double (p1:Point p2:Point) ->
+                            let x = p1.X - p2.X
+                            let y = p1.Y - p2.Y
+                            Math::Sqrt (x ** 2 + y ** 2)
+
+                        let pA = new Point 1 2
+                        let pB = new Point 10 20
+                        print "The distance is: {0}" (dist pA pB)
+                        ```
+
+                        Notes:
+
+                        Язык, который мы разработали, называется **LENS**: Language for Embeddable
+                        .NET Scripting.
+
+                        Как видите, выглядит достаточно нормально — как полноценный язык
+                        программирования. И для его разработки не потребовалось слишком много усилий
+                        — два совершенно обычных человека смогли его сделать примерно за полгода
+                        неспешной работы.
                     </script>
                 </section>
                 <section data-markdown data-background="#11ff22" class="title-section center">
                     <script type="text/template">
-                        ## C++/CLI <img src="images/crusader.svg" style="height: 30vh; background: none; vertical-align: bottom;" />
-                    </script>
-                </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        ## Что такое C++/CLI
+                        ## LENS: Расширенный синтаксис
 
-                        ```cpp
-                        System::String ^foo = gcnew System::String("foobaz");
+                        ```fsharp
+                        record Store
+                            Name : string
+                            Stock : int
+
+                        fun desribe:string (arr:object[]) ->
+                            match arr with
+                                case [] then "empty array"
+                                case [x:int] when x < 10 then fmt "array with 1 small int ({0})" x
+                                case [x] then "array with 1 item"
+                                case [x; y] then "array with 2 items"
+                                case [x; y; ...z] then fmt "array with {0}, {1} and {2} more items" x y z.Length
                         ```
 
-                        ```cpp
-                        int x = 10;
-                        int %ref = x;
-                        if (System::Int32::TryParse("42", ref))
-                            System::Console::WriteLine(x);
-                        ```
-                    </script>
-                </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        ## Нативные #include
-
-                        ```cpp
-                        #include <Windows.h>
-
-                        void function_called_from_managed_code() {
-                          HANDLE mutex = CreateMutex(nullptr, false, nullptr);
-                        }
-                        ```
-                    </script>
-                </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        ## #pragma unmanaged
-
-                        ```cpp
-                        #pragma managed
-                        ref class ManagedClass {
-                            public:
-                                property int Foo {
-                                    int get() { return 0; }
-                                    void set(int value) {  }
-                                }
-                        };
-
-                        #pragma unmanaged
-                        int __fastcall perform_wrapped_call() {
-                            int argument;
-                            __asm { mov argument, eax }
-                            return argument;
-                        }
-                        ```
-                    </script>
-                </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        ## .NET Core
-
-                        https://github.com/dotnet/coreclr/issues/659
-
-                        > **2015-04-10**: There is no plan to support C++/CLI
-                        > with .NET Core.
-
-                        > **2018-09-15**: You can track progress on Windows-only
-                        > Managed C++ support in #18013.
-                    </script>
-                </section>
-                <section data-markdown data-background="#551122" class="title-section center">
-                    <script type="text/template">
-                        ## 💀🎃<br/>Байки из склепа
-                    </script>
-                </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        ## Delphi
-
-                        ```delphi
-                        type
-                         TMyCallback = function(number: Integer): Integer;
-
-                        function DoCall(callback: TMyCallback): Integer; cdecl;
-                        begin
-                          Result := callback(10);
-                        end;
-                        ```
-                    </script>
-                </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        ## Callbacks
-
-                        ```cpp
-                        Func<int, int> ^callback;
-
-                        [UnmanagedFunctionPointer(CallingConvention::FastCall)]
-                        delegate int ExportFunction(int);
-                        ```
-                    </script>
-                </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        ## Delegate construction
-
-                        ```cpp
-                        auto exportFunction = gcnew ExportFunction(
-                            callback,
-                            &Func<int, int>::Invoke);
-                        ```
-                    </script>
-                </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        ## GetFunctionPointerForDelegate
-
-                        ```cpp
-                        auto ptr = Marshal::GetFunctionPointerForDelegate(
-                            safe_cast<Delegate^>(exportFunction));
-                        ```
-                    </script>
-                </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        ## Unmanaged
-
-                        ```cpp
-                        Callback *CallbackInstance;
-
-                        int __fastcall perform_wrapped_call() {
-                          int real_argument;
-                          __asm { mov real_argument, eax }
-                          return CallbackInstance(real_argument);
-                        }
-                        ```
-                    </script>
-                </section>
-                <section data-markdown data-background="#000000" class="title-section center">
-                    <script type="text/template">
-                        ## Component Object Model
-                    </script>
-                </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        ## COM 101
-
-                        ```csharp
-                        IComService instance = new IComService();
-                        instance.HelloWorld();
-                        ```
-                    </script>
-                </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        ## dynamic & #if
-
-                        ```csharp
-                        #if COM_LIBRARY_INSTALLED
-                          IComService instance = new IComService();
-                        #else
-                          const string TypeGuid =
-                            "03653ea3-b63b-447b-9d26-fa86e679087b";
-                          Type type = Type.GetTypeFromCLSID(Guid.Parse(TypeGuid));
-                          dynamic instance = Activator.CreateInstance(type);
-                        #endif
-
-                          instance.HelloWorld();
-                        ```
-                    </script>
-                </section>
-                <section data-markdown data-background="#119900" class="title-section center">
-                    <script type="text/template">
-                        ## P/Invoke<br/><span style="font-size: 50%;">╰(•̀ 3 •́)━☆ﾟ.*･｡ﾟ</span>
-                    </script>
-                </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        ## DllImportAttribute
-
-                        ```csharp
-                        [DllImport("StringConsumer.dll", CharSet = CharSet.Unicode)]
-                        private static extern void PassUnicodeString(string str);
-                        ```
-                    </script>
-                </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        ## DllImportAttribute: подробности
-
-                        ```csharp
-                        public sealed class DllImportAttribute : Attribute
-                        {
-                            public DllImportAttribute(string dllName) { /* ... */ }
-                            public string EntryPoint;
-                            public CharSet CharSet;
-                            public bool SetLastError;
-                            public bool ExactSpelling;
-                            public CallingConvention CallingConvention;
-                            public bool BestFitMapping;
-                            public bool PreserveSig;
-                            public bool ThrowOnUnmappableChar;
-                        }
-                        ```
-                    </script>
-                </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        ## DllImportAttribute: dllName
-
-                        ```csharp
-                        [DllImport("tdjson.dll")] // → tdjson.dll      // Windows
-                        [DllImport("tdjson")]     // → libtdjson.so    // Linux, .NET Core
-                        [DllImport("libtdjson.so")]  // → libtdjson.so // Linux, Mono
-                        [DllImport("libtdjson.dylib")] // → libtdjson.dylib // macOS
-
-                        [DllImport("__Internal")] // Mono only
-                        ```
-                    </script>
-                </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        ## DllImportAttribute.EntryPoint, ExactSpelling
-
-                        ```csharp
-                        [DllImport("somelib.dll", EntryPoint = "MyFunctionName")]
-                        [DllImport("somelib.dll", EntryPoint = "#123")] // by ordinal
-                        [DllImport("somelib.dll",
-                          EntryPoint = "MessageBoxA",
-                          ExactSpelling = true)]
-                        ```
-                    </script>
-                </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        ## DllImportAttribute: кодировки
-
-                        ```csharp
-                        public CharSet CharSet; // Auto, Ansi, Unicode
-                        public bool BestFitMapping;
-                        public bool ThrowOnUnmappableChar;
-                        ```
-                    </script>
-                </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        ## DllImportAttribute.SetLastError
-
-                        ```csharp
-                        int errorCode = Marshal.GetLastWin32Error();
-                        string errorMessage = new Win32Exception(errorCode).Message;
-                        ```
-                    </script>
-                </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        ## DllImportAttribute. CallingConvention
-
-                        ```csharp
-                        public enum CallingConvention
-                        {
-                          Winapi = 1,
-                          Cdecl = 2,
-                          StdCall = 3,
-                          ThisCall = 4,
-                          FastCall = 5,
-                        }
-                        ```
-                    </script>
-                </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        ## DllImportAttribute.PreserveSig
-
-                        ```csharp
-                        [DllImport("my.dll", PreserveSig = true)]
-                        HRESULT GetSomething(/*[out, retval]*/ BSTR *pRetVal);
-
-                        [DllImport("my.dll", PreserveSig = false)]
-                        extern static string GetSomething();
-                        ```
-                    </script>
-                </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        ## Передача аргументов
-
-                        Values:
-
-                        - примитивные типы (`int`, `long`, `double` etc.)
-                        - другие value types (структуры, enums)
-
-                        Pointers:
-
-                        - ссылочные типы (классы, делегаты)
-                        - `ref` / `out`
-                        - `IntPtr`
-                        - unsafe-указатели
-
-                        Blittable / nonblittable
-                    </script>
-                </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        ## Указатели в C#&nbsp;
-
-                        ```csharp
-                        int[] x = new int[10];
-                        fixed (int* ptr = x) {
-                            Native.Call(ptr);
-                        }
-                        ```
-                    </script>
-                </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        ## StructLayout: unions
-
-                        ```csharp
-                        [StructLayout(LayoutKind.Sequential)]
-                        public class DBVariant {
-                          public byte type;
-                          public Variant Value;
-
-                          [StructLayout(LayoutKind.Explicit)]
-                          public struct Variant {
-                            [FieldOffset(0)] public byte bVal;
-                            [FieldOffset(0)] public byte cVal;
-                            [FieldOffset(0)] public ushort wVal;
-                            [FieldOffset(0)] public IntPtr pszVal;
-                            [FieldOffset(0)] public char cchVal;
-                          }
-                        }
-                        ```
-                    </script>
-                </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        ## StructLayout: Pack
-
-                        ```csharp
-                        [StructLayout(LayoutKind.Sequential, Pack = 8)] // 16 bytes
-                        public class DBVariant1 {
-                          public byte type;
-                          // padding: 7 bytes
-                          public IntPtr Pointer; }
-
-                        [StructLayout(LayoutKind.Sequential, Pack = 1)] // 9 bytes
-                        public class DBVariant2 {
-                          public byte type;
-                          // no padding
-                          public IntPtr Pointer; }
-                        ```
-                    </script>
-                </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        ## fixed arrays
-
-                        ```c
-                        // C
-                        struct X {
-                          int Array[30];
-                        };
-                        ```
-
-                        ```csharp
-                        unsafe struct X {
-                          fixed int Array[30];
-                        }
-                        ```
-                    </script>
-                </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        ## Тесты на memory layout
-
-                        ```csharp
-                        struct Foo { public int x, y; }
-                        Foo f = new Foo();
-                        int offset1 = (byte*) &f.x - (byte*) &f;
-                        Assert.Equal(0, offset1);
-                        ```
-                    </script>
-                </section>
-                <section data-markdown data-background="#009922" class="title-section center">
-                    <script type="text/template">
-                        ## "Строки"
-                    </script>
-                </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        ## MarshalAsAttribute
-
-                        ```csharp
-                        extern void Foo([MarshalAs(UnmanagedType.BStr)] string arg);
-                        extern void Foo([MarshalAs(UnmanagedType.LPStr)] string arg);
-                        extern void Foo([MarshalAs(UnmanagedType.LPWStr)] string arg);
-                        ```
-                    </script>
-                </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        ## MutateString (native)
-
-                        ```cpp
-                        #include <cwchar>
-                        #include <xutility>
-
-                        extern "C" __declspec(dllexport) void MutateString(
-                            wchar_t *string) {
-                            std::reverse(string, std::wcschr(string, L'\0'));
-                        }
-                        ```
-                    </script>
-                </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        ## MutateString (managed)
-
-                        ```csharp
-                        [DllImport("Project1.dll", CharSet = CharSet.Unicode)]
-                        private static extern void MutateString(string foo);
-
-                        static void Main() {
-                          var myString = "Hello World 1";
-                          MutateString(myString);
-
-                          Console.WriteLine(myString);
-                          Console.WriteLine("Hello World 1");
-                        }
-                        ```
-                    </script>
-                </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        ## MutateString (managed) 😱
-
-                        ```csharp
-                        [DllImport("Project1.dll", CharSet = CharSet.Unicode)]
-                        private static extern void MutateString(string foo);
-
-                        static void Main() {
-                          var myString = "Hello World 1";
-                          MutateString(myString);
-
-                          Console.WriteLine(myString);          // => 1 dlroW olleH
-                          Console.WriteLine("Hello World 1");   // => 1 dlroW olleH
-                        }
-                        ```
-                    </script>
-                </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        ## MutateString (StringBuilder)
-
-                        ```csharp
-                        [DllImport("Project1.dll", CharSet = CharSet.Unicode)]
-                        private static extern void MutateString(StringBuilder foo);
-
-                        static void Main() {
-                          var myString = new StringBuilder("Hello World 1");
-                          MutateString(myString);
-
-                          Console.WriteLine(myString.ToString()); // => 1 dlroW olleH
-                          Console.WriteLine("Hello World 1");     // => Hello World 1
-                        }
-                        ```
-                    </script>
-                </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        ## MutateStruct (native)
-
-                        ```cpp
-                        struct S {
-                          wchar_t *field;
-                        };
-                        extern "C" __declspec(dllexport) void MutateStruct(S *s) {
-                          MutateString(s->field);
-                        }
-                        ```
-                    </script>
-                </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        ## MutateStruct (managed)
-
-                        ```csharp
-                        [StructLayout(LayoutKind.Sequential,
-                            CharSet = CharSet.Unicode)]
-                        struct S {
-                            public string field;
-                        }
-
-                        [DllImport("Project1.dll", CharSet = CharSet.Unicode)]
-                        private static extern void MutateStruct(ref S foo);
-
-                        S s = new S();
-                        s.field = "Hello World 2";
-                        MutateStruct(ref s);
-
-                        Console.WriteLine(s.field);         // => 2 dlroW olleH
-                        Console.WriteLine("Hello World 2"); // => Hello World 2
-                        ```
-                    </script>
-                </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        ## Сравнение быстродействия
-
-                        ```cpp
-                        void PassAnsiString(char *) {}
-                        void PassUnicodeString(wchar_t *) {}
-                        ```
-                    </script>
-                </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        ## Сравнение быстродействия: бенчмарк
-
-                        ```csharp
-                        [Params(10, 100, 1000)]
-                        public int N;
-
-                        private string stringToPass;
-
-                        [GlobalSetup]
-                        public void Setup() => stringToPass = new string('x', N);
-
-                        [Benchmark]
-                        public void PassAnsiString() => PassAnsiString(stringToPass);
-
-                        [Benchmark]
-                        public void PassUnicodeString() =>
-                            PassUnicodeString(stringToPass);
-                        ```
-                    </script>
-                </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        ## Сравнение быстродействия: результаты
-
-                        ```
-                                    Method |    N |        Mean |     Error |
-                        ------------------ |----- |------------:|----------:|
-                            PassAnsiString |   10 |    89.89 ns | 1.5052 ns |
-                         PassUnicodeString |   10 |    34.68 ns | 0.4818 ns |
-                            PassAnsiString |  100 |   167.77 ns | 3.4897 ns |
-                         PassUnicodeString |  100 |    36.37 ns | 0.7480 ns |
-                            PassAnsiString | 1000 | 1,032.29 ns | 7.2073 ns |
-                         PassUnicodeString | 1000 |    36.05 ns | 0.7446 ns |
-                        ```
-
-                    </script>
-                </section>
-                <section data-markdown data-background="#002288" class="title-section center">
-                    <script type="text/template">
-                        ## 📜 Разное
-                    </script>
-                </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        ## SafeHandle
-
-                        ```csharp
-                        // extern IntPtr CreateFile(…);
-                        // extern void CloseHandle(IntPtr _);
-                        IntPtr someHandle = CreateFile(…);
-                        if (someHandle == IntPtr.Zero)
-                            throw new Exception("Invalid handle value");
-                        try { // …
-                        } finally {
-                          CloseHandle(someHandle);
-                        }
-                        ```
-
-                        ```csharp
-                        class MyHandle : SafeHandleZeroOrMinusOneIsInvalid
-                        {
-                          public MyHandle() : base(true) { }
-                          protected override bool ReleaseHandle() =>
-                            CloseHandle(this.handle);
-                        }
-                        ```
-                    </script>
-                </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        ## ICustomMarshaler
-
-                        ```csharp
-                        public interface ICustomMarshaler {
-                          object MarshalNativeToManaged(IntPtr pNativeData);
-                          IntPtr MarshalManagedToNative(object ManagedObj);
-                          void CleanUpNativeData(IntPtr pNativeData);
-                          void CleanUpManagedData(object ManagedObj);
-                          int GetNativeDataSize();
-                        }
-                        ```
-
-                        ```csharp
-                        public class MyMarshaler : ICustomMarshaler {
-                          public static ICustomMarshaler GetInstance(string cookie) =>
-                            new MyMarshaler();
-                          // …
-                        }
-
-                        [MarshalAs(UnmanagedType.CustomMarshaler,
-                                   MarshalType = "Foo.Bar.MyMarshaler",
-                                   MarshalCookie = "Test")]
-                        ```
-                    </script>
-                </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        ## UnmanagedFunctionPointer
-
-                        ```csharp
-                        [UnmanagedFunctionPointer(CallingConvention.FastCall)]
-                        delegate void MarshalableDelegate(int param);
-
-                        [DllImport(…)]
-                        static extern void NativeFunc(MarshalableDelegate x);
-
-                        var myDelegate = new MarshalableDelegate(myObject.MyMethod);
-                        NativeFunc(myDelegate);
-                        ```
-                    </script>
-                </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        ## GC.KeepAlive
-
-                        ```csharp
-                        var myDelegate = new MarshalableDelegate(myObject.MyMethod);
-                        var context = NativeFuncBegin(myDelegate);
-                        // ...
-                        var result = NativeFuncEnd(context);
-                        GC.KeepAlive(myDelegate);
-                        ```
-                    </script>
-                </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        ## Трюки с CIL: .export
-
-                        ```
-                        .assembly extern mscorlib { auto }
-                        .assembly extern System { auto }
-                        .assembly SpySharp.Hooks {}
-                        .module SpySharp.Hooks.dll
-
-                        .method assembly static native int
-                          modopt (
-                            [mscorlib]System.Runtime.CompilerServices.CallConvStdcall)
-                          HookProc(
-                          int32 nCode,
-                          native int lParam,
-                          native int wParam) {
-                          .vtentry 1 : 1
-                          .export [1] as HookProc
-
-                          ldc.i4.0
-                          ret
-                        }
-                        ```
-                    </script>
-                </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        ## Трюки с CIL: vararg
-
-                        ```
-                        .method public static pinvokeimpl("msvcrt.dll" ansi cdecl)
-                        vararg int32 printf(string) cil managed preservesig {}
-
-                        // in method:
-                        .locals init(int32 i, void* pb)
-
-                        // printf(“%2.2d : %d\n”, i, *(int*)pb);
-                        ldstr "%2.2d : %d\n"
-                        ldloc.0
-                        ldloc.1
-                        ldind.i4
-                        call vararg int32 printf(string, ..., int32, int32)
-                        ```
+                        Notes:
+
+                        В целом синтаксис похож на язык F#, и в нём есть пара интересных
+                        возможностей типа pattern matching (местами даже получше F#'ового) и record
+                        types, но в основном язык просто поддерживает всё, что можно ожидать от
+                        обычного языка под .NET: классы, структуры, функции, методы и прочее. Я
+                        сегодня не буду особенно подробно останавливаться на особенностях самого
+                        языка, а постараюсь рассказать о разработке языков программирования в целом,
+                        фокусируясь на платформах типа .NET или Java Virtual Machine.
                     </script>
                 </section>
                 <section>
@@ -856,11 +216,11 @@
             });
         </script>
         <script>
-            var link = document.createElement('link');
+            const link = document.createElement('link');
             link.rel = 'stylesheet';
             link.type = 'text/css';
             link.href = 'node_modules/reveal.js/' + (
-                window.location.hash.match(/print-pdf/gi)
+                window.location.search.match(/print-pdf/gi)
                     ? 'css/print/pdf.css'
                     : 'css/print/paper.css'
                 );
