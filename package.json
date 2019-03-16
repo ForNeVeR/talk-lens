@@ -1,0 +1,10 @@
+{
+  "name": "talk-lens",
+  "version": "1.0.0",
+  "repository": "git@github.com:ForNeVeR/talk-lens.git",
+  "author": "Friedrich von Never <friedrich@fornever.me>",
+  "license": "MIT",
+  "dependencies": {
+    "reveal.js": "^3.7.0"
+  }
+}
