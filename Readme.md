@@ -21,4 +21,3 @@ terms [of the corresponding license][license-jb].
 
 [license]: ./License.md
 [license-jb]: ./images/LICENSE.jb.txt
-[talk.md]: ./talk.md
