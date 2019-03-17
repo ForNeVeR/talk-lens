@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="317.05371mm"
+   height="33.887901mm"
+   viewBox="0 0 317.05371 33.887902"
+   version="1.1"
+   id="svg891"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   sodipodi:docname="jit.svg">
+  <defs
+     id="defs885" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.7"
+     inkscape:cx="776.12584"
+     inkscape:cy="-80.170415"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1882"
+     inkscape:window-height="1237"
+     inkscape:window-x="3829"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <metadata
+     id="metadata888">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(1.4117834,-52.326718)">
+    <g
+       id="g1520"
+       transform="translate(9.2370741,5.8070465)">
+      <text
+         id="text1460"
+         y="67.256668"
+         x="147.76947"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+         xml:space="preserve"><tspan
+           style="stroke-width:0.26458332"
+           y="67.256668"
+           x="147.76947"
+           id="tspan1458"
+           sodipodi:role="line">JIT</tspan></text>
+      <rect
+         y="48.351372"
+         x="118.28043"
+         height="30.224501"
+         width="59.195126"
+         id="rect1466"
+         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.79374999;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    </g>
+    <g
+       id="g1515"
+       transform="translate(6.6875774e-7,8.534846)">
+      <text
+         id="text1464"
+         y="64.066368"
+         x="34.700596"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+         xml:space="preserve"><tspan
+           style="stroke-width:0.26458332"
+           y="64.066368"
+           x="34.700596"
+           id="tspan1462"
+           sodipodi:role="line">Байт-код</tspan></text>
+      <rect
+         y="44.188747"
+         x="-1.014909"
+         height="33.094151"
+         width="72.087303"
+         id="rect1468"
+         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.79374999;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:45.67741394px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="100.36005"
+       y="80.062843"
+       id="text1472"
+       transform="scale(0.98949708,1.0106144)"><tspan
+         sodipodi:role="line"
+         id="tspan1470"
+         x="100.36005"
+         y="80.062843"
+         style="stroke-width:0.26458332">→</tspan></text>
+    <g
+       id="g1540"
+       transform="translate(2.1220439e-5,8.534846)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+         x="278.87323"
+         y="57.451786"
+         id="text1524"><tspan
+           sodipodi:role="line"
+           id="tspan1522"
+           x="278.87323"
+           y="57.451786"
+           style="stroke-width:0.26458332">Машинный</tspan><tspan
+           sodipodi:role="line"
+           x="278.87323"
+           y="70.680954"
+           style="stroke-width:0.26458332"
+           id="tspan1530">код</tspan></text>
+      <rect
+         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.79374999;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect1526"
+         width="72.087303"
+         height="33.094151"
+         x="243.15771"
+         y="44.188747" />
+    </g>
+    <text
+       transform="scale(0.98949708,1.0106144)"
+       id="text1544"
+       y="80.062843"
+       x="217.22772"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:45.67741394px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       xml:space="preserve"><tspan
+         style="stroke-width:0.26458332"
+         y="80.062843"
+         x="217.22772"
+         id="tspan1542"
+         sodipodi:role="line">→</tspan></text>
+  </g>
+</svg>
