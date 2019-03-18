@@ -31,11 +31,11 @@
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1882"
-     inkscape:window-height="1237"
+     inkscape:window-width="3840"
+     inkscape:window-height="2066"
      inkscape:window-x="3829"
-     inkscape:window-y="0"
-     inkscape:window-maximized="0"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
      fit-margin-top="0"
      fit-margin-left="0"
      fit-margin-right="0"
@@ -100,7 +100,7 @@
            style="text-align:start;text-anchor:start;stroke-width:0.14519979"
            y="113.49447"
            x="-231.54501"
-           sodipodi:role="line"></tspan><tspan
+           sodipodi:role="line" /><tspan
            id="tspan1452"
            style="text-align:start;text-anchor:start;stroke-width:0.14519979"
            y="120.75446"
@@ -126,7 +126,7 @@
            y="54.586536"
            x="-152.34363"
            id="tspan1458"
-           sodipodi:role="line">Common Immediate Language</tspan></text>
+           sodipodi:role="line">Common Intermediate Language</tspan></text>
       <rect
          y="42.024868"
          x="-242.41347"
