@@ -77,13 +77,13 @@
                         язык программирования!
                     </script>
                 </section>
-                <section>
+                <!--<section>
                     <h2>☭ Maintenance section ☭</h2>
                     <ul>
                         <li><a href="#" onclick="javascript:window.location.hash = 'show-notes';window.location.reload();return false;">Show slide notes</a></li>
                         <li><a href="#" onclick="javascript:window.location.search = 'print-pdf';return false;">Snter PDF mode</a></li>
                     </ul>
-                </section>
+                </section>-->
             </section>
                 <section data-markdown class="tralala">
                     <script type="text/template">
@@ -130,7 +130,7 @@
                             case [x] then "array with 1 item"
                             case [x; y] then "array with 2 items"
                             case [x; y; ...z] then
-                              fmt "array with {0}, {1} and {2} more items" x y z.Length
+                              fmt "array with {0}, {1} and {2} more" x y z.Length
                         ```
 
                         Notes:
@@ -150,7 +150,7 @@
 
                         ```bnf
                         identifier = [a-zA-Z_][0-9a-zA-Z_]*
-                        for_block = "for" identifier "in" line_expr [ ".." line_expr ] "do"
+                        for = "for" identifier "in" line_expr [ ".." line_expr ] "do"
                         line_expr = if_line | while_line | for_line …
                         ```
 
@@ -509,8 +509,9 @@
                         <!-- .element: class="fragment" -->
                         4. …а иногда нет ☺
                         <!-- .element: class="fragment" -->
-                        5. Если хочется больше работать над семантикой языка, имеет смысл не делать
-                           сложного синтаксиса, а использовать S-выражения (как в LISP).
+                        5. Рассмотрите возможность использовать синтаксис Lisp.
+                        <!-- .element: class="fragment" -->
+                        6. Делать свои языки программирования – полезно!
                         <!-- .element: class="fragment" -->
                     </script>
                 </section>
