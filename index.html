@@ -39,55 +39,68 @@
         <div class="reveal" data-separator-notes="^Notes:">
             <div class="slides">
                 <section>
-                <section data-markdown class="first-slide">
-                    <script type="text/template">
-                        ## Как мы разработали свой язык программирования
-                        ---
-                        <footer style="text-align: right;">
-                            by: █████████ von █████
-                            <img src="images/avatar.png"
-                                 style="width: 1em;
-                                        height: 1em;
-                                        margin: 0;
-                                        border: 0;
-                                        box-shadow: none;
-                                        vertical-align: sub;" /><br/>
-                            https://github.com/ForNeVeR<br/>
-                            https://fornever.me/<br/>
-                            <img src="images/jetbrains.png"
-                                 style="width: 2em; height: 2em; margin: 0; border: 0; box-shadow: none;" />
-                            <img src="images/rider.png"
-                                 style="width: 2em; height: 2em; margin: 0; border: 0; box-shadow: none;" /><br/>
-                        </footer>
+                    <section data-markdown class="first-slide">
+                        <script type="text/template">
+                            ## Как разработать собственный язык программирования на примере LENS
+                            ---
+                            <footer style="text-align: right;">
+                                █████████ von █████
+                                <img src="images/avatar.png"
+                                     style="width: 1em;
+                                            height: 1em;
+                                            margin: 0;
+                                            border: 0;
+                                            box-shadow: none;
+                                            vertical-align: sub;" /><br/>
+                                https://github.com/ForNeVeR<br/>
+                                https://fornever.me/<br/>
+                                <img src="images/jetbrains.png"
+                                     style="width: 2em; height: 2em; margin: 0; border: 0; box-shadow: none;" />
+                                <img src="images/rider.png"
+                                     style="width: 2em; height: 2em; margin: 0; border: 0; box-shadow: none;" /><br/>
+                            </footer>
 
-                        Notes:
+                            Notes:
 
-                        Сегодня я расскажу вам про разработку своего собственного языка
-                        программирования.
-
-                        Почти каждый программист хоть раз в жизни задумывается о том, что неплохо бы
-                        создать свой язык программирования. Мотивация у людей разная: кому-то не
-                        дают покоя лавры создателей уже известных языков, кто-то жаждет исправить
-                        все-все фатальные недостатки в том языке, на котором пишет сейчас, а кто-то,
-                        как я, просто хочет повеселиться.
-
-                        И вот, как-то раз нам с товарищем стало очень скучно, и поэтому мы решили
-                        взять и написать свой язык программирования. И вот так нам в тот раз
-                        повезло, что _остановить нас было некому_. Поэтому мы взяли и написали свой
-                        язык программирования!
-                    </script>
+                            Сегодня я расскажу вам про разработку своего собственного языка
+                            программирования.
+                        </script>
+                    </section>
+                    <section>
+                        <h2>☭ Maintenance section ☭</h2>
+                        <ul>
+                            <li><a href="#" onclick="javascript:window.location.hash = 'show-notes';window.location.reload();return false;">Show slide notes</a></li>
+                            <li><a href="#" onclick="javascript:window.location.search = 'print-pdf';return false;">Snter PDF mode</a></li>
+                        </ul>
+                    </section>
                 </section>
-                <!--<section>
-                    <h2>☭ Maintenance section ☭</h2>
-                    <ul>
-                        <li><a href="#" onclick="javascript:window.location.hash = 'show-notes';window.location.reload();return false;">Show slide notes</a></li>
-                        <li><a href="#" onclick="javascript:window.location.search = 'print-pdf';return false;">Snter PDF mode</a></li>
-                    </ul>
-                </section>-->
-            </section>
-                <section data-markdown class="tralala">
+                <section data-markdown>
+                    ![](images/github.png)
+
+                    Notes:
+
+                    Однажды нам с товарищем (вот он) стало очень скучно, и мы решили взять и
+                    написать свой язык программирования. В тот раз нам повезло, и _остановить нас
+                    было некому_, поэтому мы успешно эту задачу решили!
+
+                    Почти каждый программист хоть раз в жизни задумывается о том, что неплохо бы
+                    создать свой язык программирования. Мотивация у людей разная: кому-то не
+                    дают покоя лавры создателей уже известных языков, кто-то жаждет исправить
+                    все-все фатальные недостатки в том языке, на котором пишет сейчас, а кто-то,
+                    как мы, просто хочет немного повеселиться.
+
+                    Однако разработка языка — это не только веселье. Я могу сказать, что
+                    разработка собственного языка позволила мне изучить очень много полезного
+                    про устройство платформы, с которой я работаю, и благодаря этому опыту я
+                    значительно лучше понимаю логику других компиляторов, с которыми мне
+                    приходится работать.
+
+                    Даже если написанный вам язык вам самим в будущем не пригодится, полученные
+                    знания точно останутся с вами.
+                </section>
+                <section data-markdown>
                     <script type="text/template">
-                        ## **LENS**: Language for Embeddable .NET Scripting
+                        ## Базовый синтаксис
 
                         ```fsharp
                         using System.Drawing
@@ -105,7 +118,8 @@
                         Notes:
 
                         Язык, который мы разработали, называется **LENS**: Language for Embeddable
-                        .NET Scripting.
+                        .NET Scripting. Это статически типзиированный язык программирования с
+                        ограниченным выводом типов, который компилируется в байт-код платформы .NET.
 
                         Как видите, выглядит достаточно нормально — как полноценный язык
                         программирования. И для его разработки не потребовалось слишком много усилий
@@ -115,7 +129,7 @@
                 </section>
                 <section data-markdown>
                     <script type="text/template">
-                        ## LENS: Расширенный синтаксис
+                        ## Функциональные возможности языка
 
                         ```fsharp
                         record Store
