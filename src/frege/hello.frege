@@ -1,0 +1,6 @@
+module Hello where
+
+greeting friend = "Hello, " ++ friend ++ "!"
+
+main args = do
+    println (greeting "World")

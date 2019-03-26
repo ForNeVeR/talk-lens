@@ -66,17 +66,18 @@
                             программирования.
                         </script>
                     </section>
-                    <section>
+                    <!--<section>
                         <h2>☭ Maintenance section ☭</h2>
                         <ul>
                             <li><a href="#" onclick="javascript:window.location.hash = 'show-notes';window.location.reload();return false;">Show slide notes</a></li>
                             <li><a href="#" onclick="javascript:window.location.search = 'print-pdf';return false;">Snter PDF mode</a></li>
                         </ul>
-                    </section>
+                    </section>-->
                 </section>
                 <section data-markdown>
                     ![](images/github.png)
 
+                    https://github.com/impworks/lens
                     Notes:
 
                     Однажды нам с товарищем (вот он) стало очень скучно, и мы решили взять и
@@ -97,24 +98,6 @@
 
                     Даже если написанный вам язык вам самим в будущем не пригодится, полученные
                     знания точно останутся с вами.
-                </section>
-                <section data-markdown>
-                    ## Общее устройство компилятора
-
-                    ![](images/compiler.svg)
-
-                    Notes:
-
-                    Компилятор с высоты птичьего полёта выглядит примерно так. Это такая коробочка,
-                    на входе у которой исходный код программы, а на выходе — некое итоговое
-                    представление этой программы, исполняемый файл.
-
-                    Между ними находятся этапы лексического и синтаксического разбора (которые
-                    иногда объединяют) и транслятор.
-
-                    Сначала ваш исходный текст проходит обработку _лексером_ и превращается в поток
-                    неких специальных токенов, затем _парсер_ строит синтаксическое дерево, а затем
-                    транслятор превращает это дерево в бинарный файл.
                 </section>
                 <section data-markdown>
                     ## Базовый синтаксис
@@ -173,6 +156,24 @@
                         языка, а постараюсь рассказать о разработке языков программирования в целом,
                         фокусируясь на платформах типа .NET или Java Virtual Machine.
                     </script>
+                </section>
+                <section data-markdown>
+                    ## Общее устройство компилятора
+
+                    ![](images/compiler.svg)
+
+                    Notes:
+
+                    Компилятор с высоты птичьего полёта выглядит примерно так. Это такая коробочка,
+                    на входе у которой исходный код программы, а на выходе — некое итоговое
+                    представление этой программы, исполняемый файл.
+
+                    Между ними находятся этапы лексического и синтаксического разбора (которые
+                    иногда объединяют) и транслятор.
+
+                    Сначала ваш исходный текст проходит обработку _лексером_ и превращается в поток
+                    неких специальных токенов, затем _парсер_ строит синтаксическое дерево, а затем
+                    транслятор превращает это дерево в бинарный файл.
                 </section>
                 <section data-markdown>
                     <script type="text/template">
@@ -291,16 +292,46 @@
                 </section>
                 <section data-markdown>
                     <script type="text/template">
-                        ## Написание парсера
+                        ## Генераторы парсеров
 
-                        1. Генераторы парсеров (например, ANTLR)
-                        2. Комбинаторы парсеров (parsec & co)
+                        (например, ANTLR)
+
+                        ```java
+                        atomExp returns [double value]
+                            : n=Number {$value = Double.parseDouble($n.text);}
+                            | i=Identifier {$value = memory.get($i.text);}
+                            | '(' exp=additionExp ')' {$value = $exp.value;}
+                            ; // https://stackoverflow.com/a/2042467/2684760
+                        ```
+                        <!-- .element: class="fragment" -->
+
+                        Notes:
+
+                        К автоматизированному написанию парсера для языка программирования есть два
+                        основных подхода. Первый подход — это генераторы парсеров.
+
+                        Генераторы парсеров — это специальные программы, которые позволяют с помощью
+                        нотации, похожей на BNF, сгенерировать код, который будет разбирать
+                        интересующий вас синтаксис. То есть генератору парсеров можно скормить
+                        практически в неизменном виде нотацию, которую мы видели ранее, и, если она
+                        построена корректно, он сгенерирует нам разборщик кода программы.
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## Комбинаторы парсеров
+
+                        (parsec, fparsec & co)
+
+                        ```ebnf
+                        if_expr = "if" "(" line_expr ")" block [ "else" block ]
+                        ```
+                        <!-- .element: class="fragment" -->
 
                         ```fsharp
-                        identifierRef := regex "[a-zA-Z_][0-9a-zA-Z_]*"
                         if_exprRef := pipe3
                             <| (keyword "if" >>.
-                                    (between <| token "(" <| token ")" <| line_expr))
+                                (between <| token "(" <| token ")" <| line_expr))
                             <| block
                             <| opt (keyword "else" >>. block)
                             <| Node.ifNode
@@ -309,18 +340,10 @@
 
                         Notes:
 
-                        К автоматизированному написанию парсера для языка программирования есть два
-                        основных подхода: это генераторы парсеров и комбинаторы парсеров.
-
-                        Генераторы парсеров — это специальные программы, которые позволяют с помощью
-                        нотации, похожей на BNF, сгенерировать код, который будет разбирать
-                        интересующий вас синтаксис. То есть генератору парсеров можно скормить
-                        практически в неизменном виде нотацию, которую мы видели ранее, и, если она
-                        построена корректно, он сгенерирует нам разборщик кода программы. Это вполне
-                        зрелый подход, но нам не захотелось иметь дело со сгенерированными
-                        исходниками и усложнением процесса сборки нашего будущего компилятора, и
-                        поэтому мы пошли вторым путём: использовали библиотеку комбинаторов
-                        парсеров.
+                        При разработке языка нам, однако, не захотелось иметь дело со
+                        сгенерированными исходниками и усложнением процесса сборки нашего будущего
+                        компилятора, и поэтому мы пошли вторым путём: использовали библиотеку
+                        комбинаторов парсеров.
 
                         Одна из самых крутых подобных библиотек сегодня написана на Haskell и
                         называется parsec, но её портировали и на многие другие языки. В частности,
@@ -330,24 +353,87 @@
                         Поскольку F# позволяет определять свои операторы, получившаяся нотация
                         довольно похожа на исходную BNF, хотя и не всегда ложится на неё
                         один-к-одному.
+
+                        Для примера давайте рассмотрим, как вот эта EBNF-нотация будет выглядеть в
+                        синтаксисе fparsec.
+                    </script>
+                </section>
+                <section data-markdown>
+                    ## Parser Story Time
+
+                    ![](images/story-time.jpg)
+
+                    Notes:
+
+                    Настало время занимательных историй про парсеры. Поскольку разработкой первой
+                    итерации парсера в основном занимался я, то у меня их достаточно. При написании
+                    парсера мы столкнулись с несколькими проблемами.
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## Отступы в синтаксисе
+
+                        ```ebnf
+                        block = NL, block_line, { block_line } ;
+                        block_line = INDENT (???), expression, NL ;
+                        ```
+
+                        ```ebnf
+                        block = INDENT, expression, { NL expression }, DEDENT ;
+                        ```
+                        <!-- .element: class="fragment" -->
+
+                        Notes:
+
+                        Во-первых, было непросто поддержать язык, основанный на отступах даже на
+                        уровне грамматики. Изначально вообще было не очень понятно, как это сделать.
+                        Вот пример грамматики. В ней указано, что блок кода — это последовательность
+                        строк. А каждая строка — это отступ + выражение. И тут уже становится
+                        непонятно, что такое отступ — в грамматике нет требования, что у всех строк
+                        в блоке кода отступ одинаковый. Получается, это требование нужно указывать
+                        отдельно. И как такое требование обрабатывать в fparsec — непонятно. Мы
+                        написали по почте автору библиотеки, и он дал нам пару очень ценных советов,
+                        которые помогли продвинуться в этом вопросе.
+
+
+                        В итоге `INDENT` превратился в синтетический токен, который в грамматике
+                        обозначает не сам отступ, а увеличение уровня отступа на единицу. И появился
+                        токен `DEDENT`, который обозначает уменьшение уровня отступа.
                     </script>
                 </section>
                 <section data-markdown>
                     <script type="text/template">
-                        ## Parser Story Time
+                        ## Сообщения об ошибках
 
-                        ![](images/story-time.jpg)
+                        ```fsharp
+                        // неправильно
+                        if a = 3
+                            print a
 
+                        // правильно
+                        if (a = 3)
+                            print a
+                        ```
+
+                        ```fsharp
+                        let debug = true
+                        let (<!>) (p : Parser<_,_>) label : Parser<_,_> =
+                            if debug then
+                                fun stream ->
+                                    printfn "%A: Entering %s" stream.Position label
+                                    let reply = p stream
+                                    printfn "%A: Leaving %s (%A)"
+                                        stream.Position label reply.Status
+                                    reply
+                            else
+                                p
+                        ```
+                        <!-- .element: class="fragment" -->
 
                         Notes:
 
-                        При написании парсера мы столкнулись с несколькими проблемами. Во-первых,
-                        было непросто поддержать язык, основанный на отступах. Изначально вообще
-                        было не очень понятно, как это сделать, но мы написали по почте автору
-                        библиотеки, и он дал нам пару очень ценных советов, которые помогли
-                        продвинуться.
-
-                        Во-вторых, для нас было важно, чтобы сообщения об ошибках были читаемыми. Но
+                        Для нас было важно, чтобы сообщения об ошибках были читаемыми (потому что
+                        читали их в первую очередь мы сами при разработке парсера и грамматики). Но
                         при этом наш парсер никак не мог их начать нормально генерировать. Дело в
                         том, что парсер для нашего языка работал по механизму т. н. парсеров с
                         откатом: если он видел какое-то выражение, похожее на `if` или `for`, то
@@ -366,8 +452,20 @@
                         парсера, чтобы понять, что и как он пробовал разобрать, и почему у него не
                         получилось.
 
-                        Через какое-то время мне надоело читать по 600 киб логов на каждый мелкий
-                        баг парсера, и мы решили его переписать на C#, без использования библиотек.
+                        Была написана функция с непроизносимым названием `<!>`, которая, если
+                        включен отладочный режим, при входе в режим разбора любого узла
+                        синтаксического дерева записывала этот факт в лог.
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ![](images/logs.gif)
+
+                        Notes:
+
+                        Через какое-то время мне надоело читать по 600 киБ логов на каждый мелкий
+                        баг парсера (на гифке: 30 киБ логов, чтобы распарсить выражение
+                        `print 123`), и мы решили его переписать на C#, без использования библиотек.
                         Это позволило нам сделать сообщения об ошибках более человечными и решило
                         проблему с парсингом. Некоторые другие профессиональные компиляторы тоже
                         используют такой подход, но, возможно, нам просто стоило с самого начала
@@ -376,12 +474,33 @@
                 </section>
                 <section data-markdown>
                     <script type="text/template">
-                        ![](images/programming-language.02.svg)
+                        ## LISP
 
-                        - машинный код (x86, x86-64, ARM, etc.) <!-- .element: class="fragment" -->
-                        - низкоуровневое представление LLVM <!-- .element: class="fragment" -->
-                        - байткод виртуальных машин: CLI (.NET), JVM, etc. <!-- .element: class="fragment" -->
-                        - другие языки высокого уровня <!-- .element: class="fragment" -->
+                        ```lisp
+                        (defun test-let ()
+                          (System.Console.Write "Let: ")
+                          (let ((ok "OK"))
+                            (System.Console.WriteLine ok)))
+                        (System.Console.WriteLine "Naggum test suite")
+
+                        (let ((thread (System.Threading.Thread.get_CurrentThread))
+                              (culture
+                                (System.Globalization.CultureInfo.get_InvariantCulture)))
+                            (System.Console.WriteLine "Setting up an environment...")
+                            (call set_CurrentCulture thread culture))
+
+                        (test-let)
+                        ```
+
+                        Notes:
+
+                        Поэтому вот вам совет от бывалого разработчика парсеров: если хотите
+                        написать свой язык — не заморачивайтесь. Напишите лисп :)
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ![](images/programming-language.02.svg)
 
                         Notes:
 
@@ -396,6 +515,121 @@
                         автора являлись (и до сих пор являются) программистами именно под неё. Но на
                         самом деле можно писать компиляторы и под чужие целевые платформы —
                         например, на C++ написать компилятор в Java-байт код.
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## Машинный код (x86, x86-64, ARM, etc.)
+
+                        ```fsharp
+                        _+C..ctor()
+                            L0000: cmp [ecx], al
+                            L0002: ret
+
+                        ; return x * y + z
+                        _+C.MulAdd(Int32, Int32, Int32)
+                            L0000: mov eax, [esp+0x8]
+                            L0004: imul eax, edx
+                            L0007: add eax, [esp+0x4]
+                            L000b: ret 0x8
+                        ```
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## LLVM (Low Level Virtual Machine)
+
+                        ```fsharp
+                        ; http://releases.llvm.org/2.6/docs/tutorial/JITTutorial1.html
+
+                        define i32 @mul_add(i32 %x, i32 %y, i32 %z) {
+                            entry:
+                              %tmp = mul i32 %x, %y
+                              %tmp2 = add i32 %tmp, %z
+                              ret i32 %tmp2
+                            }
+                        ```
+
+                        Rust, Swift, Kotlin/Native
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## CIL (.NET)
+
+                        ```fsharp
+                        .method public hidebysig
+                            instance int32 MulAdd (
+                                int32 x,
+                                int32 y,
+                                int32 z ) cil managed  {
+                            .maxstack 8
+
+                            IL_0000: ldarg.1
+                            IL_0001: ldarg.2
+                            IL_0002: mul
+                            IL_0003: ldarg.3
+                            IL_0004: add
+                            IL_0005: ret }
+                        ```
+
+                        C#, F#, VB.NET etc.
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## JavaScript
+
+                        ```javascript
+                        var a = +$("#input1")[0].value;
+                        var b = +$("#input2")[0].value;
+                        var c = +$("#input3")[0].value;
+
+                        $("#output")[0].value = a * b + c;
+                        ```
+
+                        TypeScript, Flow, Scala.js, Kotlin/JS
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## Frege
+
+                        https://github.com/Frege/frege
+
+                        ```haskell
+                        module Hello where
+
+                        greeting friend = "Hello, " ++ friend ++ "!"
+
+                        main args = do
+                            println (greeting "World")
+                        ```
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## Frege → Java
+
+                        ```java
+                        final public static Func.U<RealWorld, Short> $main(final Lazy<PreludeBase.TList<String/*<Character>*/>> arg$1) {
+                            return Prelude.<String/*<Character>*/>println(PreludeText.IShow_String.it, Hello.greeting("World"));
+                          }
+
+                            public static void main(final java.lang.String[] argv) {
+                              try {
+                                frege.run.RunTM.argv = argv;
+
+                                  PreludeBase.TST.<Short>performUnsafe($main
+                                         (Thunk.lazy(PreludeArrays.IListSource_JArray.<String/*<Character>*/>toList(argv))).call()
+                                    ).call();
+                                frege.runtime.Runtime.stdout.get().close();
+                                frege.runtime.Runtime.stderr.get().close();
+
+                              } finally { frege.run.Concurrent.shutDownIfExists(); }
+                            }
+                          }
+                        ```
                     </script>
                 </section>
                 <section data-markdown>
@@ -418,66 +652,18 @@
                 </section>
                 <section data-markdown>
                     <script type="text/template">
-                        ## CLI — Common Language Infrastructure (.NET)
+                        ## Context
 
-                        ![](images/byte-code.svg)
-                        ![](images/jit.svg)
-                        <!-- .element: class="fragment" -->
+                        - опции компиляции
+                        - генерация байт-кода
+                        - стек областей видимости
 
-                        Notes:
+                        - импортированные сборки и пространства имён
+                        - доступные функции
+                        - доступные поля и переменные
+                        - ограничение на доступные сущности ("safe mode")
 
-                        Теперь мы поговорим про то, как вообще работает виртуальная машина, и что за
-                        байткод такой.
-
-                        У виртуальной машины .NET, как и у JVM, есть спецификация, которая описывает
-                        архитектуру и стандартный набор инструкций. Виртуальная машина, в отличие от
-                        настоящих процессоров, является стековой: это значит, что для того, чтобы
-                        что-то делать с данными, вы можете оперировать только со стеком и другими
-                        видами локальной памяти, никаких регистров тут нет.
-
-                        Байт-код является достаточно высокоуровневым: он знает про классы, методы,
-                        генерики и всю систему типов .NET. Для байт-кода есть свой своеобразный
-                        высокоуровневый ассемблер, на котором можно (и даже несложно) писать
-                        полноценные программы.
-
-                        Некоторые виртуальные машины (например, Java Virtual Machine) умеют
-                        интерпретировать байт-код, но .NET так не делает, а сразу компилирует его в
-                        машинное представление. Этим занимается специальная часть виртуальной
-                        машины: JIT (Just-In-Time Compiler).
-                    </script>
-                </section>
-                <section data-markdown>
-                    <script type="text/template">
-                        ## Динамическая генерация байт-кода
-
-                        - Reflection.Emit
-                        - Mono.Cecil
-
-                        ```fsharp
-                        ilGenerator.Emit(OpCodes.Ldc_I4, 100500)
-                        ```
-
-                        Notes:
-
-                        Для того, чтобы сгенерировать байт-код во время выполнения программы, а
-                        потом с ним что-то сделать (например, исполнить или сохранить на диск), в
-                        CLI есть специальный механизм: он называется `Reflection.Emit`. С помощью
-                        этого механизма мы генерируем типы, методы и потоки инструкций для каждого
-                        метода. Выглядит это очень просто: каждой инструкции байт-кода соответствует
-                        вызов метода специального класса `ILGenerator`.
-
-                        Есть у такого подхода и недостатки: поскольку мы генерируем код в рамках
-                        текущего процесса, то мы должны в процесс компилятора загружать все
-                        библиотеки, которые нам нужны для работы конечной программы, а также мы не
-                        можем генерировать код для другого варианта виртуальной машины (например,
-                        для .NET Core).
-
-                        Если хочется эти недостатки решить, можно использовать другие технологии
-                        генерации байт-кода — например, библиотеку Mono.Cecil, которая позволяет
-                        работать с байт-кодом, не подгружая его в контекст текущего процесса.
-
-                        После компиляции код можно сразу начинать выполнять, даже не сохраняя его на
-                        диск. Ну или можно сохранить, чтобы выполнить в дальшейшем.
+                        - стандартная библиотека
                     </script>
                 </section>
                 <section data-markdown>
@@ -513,17 +699,121 @@
                 </section>
                 <section data-markdown>
                     <script type="text/template">
+                        ## CLI — Common Language Infrastructure (.NET)
+
+                        ![](images/byte-code.svg)
+
+                        Notes:
+
+                        Теперь мы поговорим про то, как вообще работает виртуальная машина, и что за
+                        байткод такой.
+
+                        У виртуальной машины .NET, как и у JVM, есть спецификация, которая описывает
+                        архитектуру и стандартный набор инструкций. Виртуальная машина, в отличие от
+                        настоящих процессоров, является стековой: это значит, что для того, чтобы
+                        что-то делать с данными, вы можете оперировать только со стеком и другими
+                        видами локальной памяти, никаких регистров тут нет.
+
+                        Байт-код является достаточно высокоуровневым: он знает про классы, методы,
+                        генерики и всю систему типов .NET. Для байт-кода есть свой своеобразный
+                        высокоуровневый ассемблер, на котором можно (и даже несложно) писать
+                        полноценные программы. Я не могу с уверенностью сказать, что знаю людей,
+                        которые пишут на этом ассемблере большие программы, но я точно знаю людей,
+                        которые __говорят__, что пишут на этом ассемблере большие программы.
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## JIT-компилятор (Just-In-Time)
+
+                        ![](images/jit.svg)
+
+                        Notes:
+
+                        Некоторые виртуальные машины (например, Java Virtual Machine) умеют
+                        интерпретировать байт-код, но .NET так не делает, а сразу компилирует его в
+                        машинное представление. Этим занимается специальная часть виртуальной
+                        машины: JIT (Just-In-Time Compiler).
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## Динамическая генерация байт-кода
+
+                        ```csharp
+                        for (int i = 0; i < code.Length; ++i) {
+                          switch (code[i]) {
+                            case '+':
+                              ilGenerator.Emit(OpCodes.Ldloc_0);
+                              ilGenerator.EmitCall(OpCodes.Call, GetMethod("Add"), null);
+                              break;
+                            case '-':
+                              ilGenerator.Emit(OpCodes.Ldloc_0);
+                              ilGenerator.EmitCall(OpCodes.Call, GetMethod("Dec"), null);
+                              break;
+                            case '>': // …
+                            case '<': // …
+                            case '.': // …
+                            case ',': // …
+                            case '[': // …
+                            case ']': // …
+                        ```
+
+                        Notes:
+
+                        Для того, чтобы сгенерировать байт-код во время выполнения программы, а
+                        потом с ним что-то сделать (например, исполнить или сохранить на диск), в
+                        CLI есть специальный механизм: он называется `Reflection.Emit`. С помощью
+                        этого механизма мы генерируем типы, методы и потоки инструкций для каждого
+                        метода. Выглядит это очень просто: каждой инструкции байт-кода соответствует
+                        вызов метода специального класса `ILGenerator`.
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## Reflection.Emit
+
+                        Достоинства:
+                        - можно сгенерировать и сразу выполнить байт-код
+                        - можно сохранить код в EXE или DLL
+
+                        Недостатки:
+                        - не работает кросскомпиляция
+                        - библиотеки в адресном пространстве компилятора
+                        - можно решить Mono.Cecil
+
+                        Notes:
+
+                        После компиляции код можно сразу начинать выполнять, даже не сохраняя его на
+                        диск. Ну или можно сохранить, чтобы выполнить в дальшейшем.
+
+                        Есть у такого подхода и недостатки: поскольку мы генерируем код в рамках
+                        текущего процесса, то мы должны в процесс компилятора загружать все
+                        библиотеки, которые нам нужны для работы конечной программы, а также мы не
+                        можем генерировать код для другого варианта виртуальной машины (например,
+                        для .NET Core).
+
+                        Если хочется эти недостатки решить, можно использовать другие технологии
+                        генерации байт-кода — например, библиотеку Mono.Cecil, которая позволяет
+                        работать с байт-кодом, не подгружая его в контекст текущего процесса.
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
                         ## Embeddable Scripting
 
                         ```csharp
+                        double x = 5, y = 10, res = 10;
                         var cp = new LensCompiler();
                         cp.RegisterProperty("x", () => x);
                         cp.RegisterProperty("y", () => y);
-                        cp.RegisterProperty("res", () => result, r => result = r);
+                        cp.RegisterProperty("res",
+                            () => res,
+                            r => res = r);
 
-                        var source = "res = x * y";
+                        var source = "res = x * y + res";
                         var compiled = cp.Compile(source);
-                        compiled.Run();
+                        compiled.Run(); // res = 60
                         ```
 
                         Notes:
@@ -543,20 +833,8 @@
                     <script type="text/template">
                         ## Зачем нужны скрипты?
 
-                        ```fsharp
-                        let library = @"
-                        fun complex:ProgrammedAction (name:string simpleOverlay:bool) ->
-                            let action = new ComplexImage()
-                            action.Name = name
-                            action.SimpleOverlay = simpleOverlay
-                            action
-                        "
-
-                        use lens = new LensCompiler()
-                        let script = library + "\n\n" + File.ReadAllText(scriptPath)
-                        let program = lens.Compile(script)
-                        let steps = downcast program.Invoke()
-                        ```
+                        ![](images/tea-scheme.svg)
+                        <!-- .element: class="fragment" -->
 
                         Notes:
 
@@ -589,6 +867,37 @@
                 </section>
                 <section data-markdown>
                     <script type="text/template">
+                        ```fsharp
+                        planPath = "plans/microwave-plan-30-khz.xml"
+                        new [
+                            openems "Microwave: 30 kHz" 30000m "30-khz" "30-kHz.png"
+                            openems "Microwave: 3 MHz" 3000000m "3-mhz" "3-MHz.png"
+                            openems "Microwave: 50 MHz" 50000000m "50-mhz" "50-MHz.png"
+                            openems "Microwave: 300 MHz" 300000000m "300-mhz" "300-MHz.png"
+                            complex "Microwave: Complex" "Complex-all.png"
+                        ]
+                        ```
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ```fsharp
+                        use lens = new LensCompiler()
+                        let script = library + "\n\n" + File.ReadAllText(scriptPath)
+                        let program = lens.Compile(script)
+                        let steps = downcast program.Invoke()
+                        ```
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## Вот зачем нужны скрипты
+
+                        ![](images/tea-scheme.2.svg)
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
                         ## Выводы
 
                         1. Разработать свой язык программирования может каждый.
@@ -612,11 +921,7 @@
                         <div style="width: 100%; text-align: left;">
                             <img src="images/the-end.svg" style="width: 35vw;"/>
                         </div>
-                    </script>
-                </section>
-                <section data-markdown class="center">
-                    <script type="text/template">
-                        <small>
+                        <small class="fragment">
                             Материалы доклада доступны в репозитории:<br/>
                             https://github.com/ForNeVeR/talk-lens
                             <br/><br/>
@@ -624,6 +929,7 @@
                             https://github.com/impworks/lens
                             <br/><br/>
                             Контакты автора:<br/>
+                            █████████ von █████<br/>
                             <a href="mailto:friedrich@fornever.me">friedrich@fornever.me</a><br/>
                             https://t.me/fvnever
                         </small>
