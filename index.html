@@ -33,38 +33,48 @@
             .reveal ol {
                 font-size: 85%;
             }
+            .reveal section img {
+                background: none;
+            }
+            .reveal .first-slide h2 {
+                color: #fff;
+                font-size: 1.3em;
+                text-align: left;
+            }
+            .reveal .first-slide .speaker {
+                color: #fff;
+                text-align: left;
+                position: fixed;
+                top: 600px;
+            }
+            .first-slide > .title-section {
+                max-width: 60%;
+                position: fixed;
+                right: 0;
+                top: 6em;
+                text-align: right;
+            }
+            .jb-logo {
+                width: 5em;
+                height: 5em;
+                top: 0;
+                right: 4em;
+                position: fixed;
+            }
         </style>
     </head>
     <body>
         <div class="reveal" data-separator-notes="^Notes:">
             <div class="slides">
                 <section>
-                    <section data-markdown class="first-slide">
-                        <script type="text/template">
-                            ## Как разработать собственный язык программирования на примере LENS
-                            ---
-                            <footer style="text-align: right;">
+                    <section data-background="images/background.png" class="first-slide">
+                        <div class="title-section">
+                            <img src="images/jetbrains.png" class="jb-logo" />
+                            <h2>Как разработать собственный язык программирования на&nbsp;примере LENS<br/>—</h2>
+                            <div class="speaker">
                                 █████████ von █████
-                                <img src="images/avatar.png"
-                                     style="width: 1em;
-                                            height: 1em;
-                                            margin: 0;
-                                            border: 0;
-                                            box-shadow: none;
-                                            vertical-align: sub;" /><br/>
-                                https://github.com/ForNeVeR<br/>
-                                https://fornever.me/<br/>
-                                <img src="images/jetbrains.png"
-                                     style="width: 2em; height: 2em; margin: 0; border: 0; box-shadow: none;" />
-                                <img src="images/rider.png"
-                                     style="width: 2em; height: 2em; margin: 0; border: 0; box-shadow: none;" /><br/>
-                            </footer>
-
-                            Notes:
-
-                            Сегодня я расскажу вам про разработку своего собственного языка
-                            программирования.
-                        </script>
+                            </span>
+                        </div>
                     </section>
                     <!--<section>
                         <h2>☭ Maintenance section ☭</h2>

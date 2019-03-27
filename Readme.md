@@ -16,8 +16,8 @@ License
 -------
 
 The talk and the code samples are available under the terms of [MIT
-License][license]. JetBrains and JetBrains Rider logos are available under the
-terms [of the corresponding license][license-jb].
+License][license]. JetBrains logo is available under the terms [of the
+corresponding license][license-jb].
 
 [license]: ./License.md
 [license-jb]: ./images/LICENSE.jb.txt
