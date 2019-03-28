@@ -5,7 +5,7 @@
         <meta name="viewport"
               content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-        <title>Как мы разработали свой язык программирования</title>
+        <title>Как разработать собственный язык программирования на примере LENS</title>
 
         <link rel="stylesheet" href="node_modules/reveal.js/css/reveal.css">
         <link rel="stylesheet" href="node_modules/reveal.js/css/theme/white.css">
@@ -78,13 +78,13 @@
                             </span>
                         </div>
                     </section>
-                    <section>
+                    <!--<section>
                         <h2>☭ Maintenance section ☭</h2>
                         <ul>
                             <li><a href="#" onclick="javascript:window.location.hash = 'show-notes';window.location.reload();return false;">Show slide notes</a></li>
                             <li><a href="#" onclick="javascript:window.location.search = 'print-pdf';return false;">Enter PDF mode</a></li>
                         </ul>
-                    </section>
+                    </section>-->
                 </section>
                 <section data-markdown>
                     ![](images/github.png)
@@ -170,7 +170,7 @@
                     </script>
                 </section>
                 <section data-markdown>
-                    ## Общее устройство компилятора
+                    ## Устройство компилятора
 
                     ![](images/compiler.svg)
 
@@ -192,26 +192,18 @@
                         ## Расширенная форма Бэкуса-Наура (EBNF)
 
                         ```ebnf
-                        (* специальное регулярное выражение *)
-                        identifier = ? [a-zA-Z_][0-9a-zA-Z_]* ? ;
+                        digit = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ;
+                        number = digit, { digit } ;
+                        operator = "+" | "-" ;
+                        expression = number, operator, number ;
+
+                        if_then_else = "if", "(", condition, ")", "then", expression,
+                            [ "else", expression ];
                         ```
-                        <!-- .element: class="fragment" -->
 
                         ```ebnf
-                        (* следование символов друг за другом, литералы *)
-                        ab = "a", "b" ;
-                        ```
-                        <!-- .element: class="fragment" -->
-
-                        ```ebnf
-                        (* опциональные символы, последовательности *)
-                        maybe_a = [ a ], { ".", "b" } ;
-                        ```
-                        <!-- .element: class="fragment" -->
-
-                        ```ebnf
-                        (* ветвление *)
-                        a_or_b_or_c = a | b | c ;
+                        (* расширения EBNF *)
+                        regexp_sample = ? [a-zA-Z_][0-9a-zA-Z_]* ? ;
                         ```
                         <!-- .element: class="fragment" -->
 
@@ -254,8 +246,8 @@
 
                         ```ebnf
                         identifier = ? [a-zA-Z_][0-9a-zA-Z_]* ? ;
-                        for = "for", identifier, "in", line_expr, [ ".." line_expr ], "do",
-                            INDENT, code_block ;
+                        for = "for", identifier, "in", line_expr, [ ".." line_expr ],
+                            "do", INDENT, code_block ;
                         line_expr = if_line | while_line | for_line … ;
                         ```
 
@@ -531,7 +523,8 @@
                 </section>
                 <section data-markdown>
                     <script type="text/template">
-                        ## Машинный код (x86, x86-64, ARM, etc.)
+                        ## Машинный код
+                        (x86, x86-64, ARM, etc.)
 
                         ```fsharp
                         _+C..ctor()
@@ -567,30 +560,27 @@
                 </section>
                 <section data-markdown>
                     <script type="text/template">
-                        ## CIL (.NET)
+                        ## Байт-код виртуальной машины
 
                         ```fsharp
-                        .method public hidebysig
-                            instance int32 MulAdd (
-                                int32 x,
-                                int32 y,
-                                int32 z ) cil managed  {
-                            .maxstack 8
-
-                            IL_0000: ldarg.1
-                            IL_0001: ldarg.2
-                            IL_0002: mul
-                            IL_0003: ldarg.3
-                            IL_0004: add
-                            IL_0005: ret }
+                        .method public hidebysig instance
+                          int32 MulAdd (int32 x, int32 y, int32 z) cil managed {
+                            ldarg.1
+                            ldarg.2
+                            mul
+                            ldarg.3
+                            add
+                            ret }
                         ```
 
-                        C#, F#, VB.NET etc.
+                        - C#, F#, VB.NET
+                        - Java, Scala, Kotlin
                     </script>
                 </section>
                 <section data-markdown>
                     <script type="text/template">
-                        ## JavaScript
+                        ## Компиляция в другие языки высокого уровня
+                        (→ JavaScript)
 
                         ```javascript
                         var a = +$("#input1")[0].value;
@@ -605,7 +595,8 @@
                 </section>
                 <section data-markdown>
                     <script type="text/template">
-                        ## Frege
+                        ## Компиляция в другие языки высокого уровня
+                        (Frege → Java)
 
                         https://github.com/Frege/frege
 
@@ -621,26 +612,27 @@
                 </section>
                 <section data-markdown>
                     <script type="text/template">
-                        ## Frege → Java
+                        ## Frege → Java 😱
 
                         ```java
-                        final public static Func.U<RealWorld, Short> $main(final Lazy<PreludeBase.TList<String/*<Character>*/>> arg$1) {
-                            return Prelude.<String/*<Character>*/>println(PreludeText.IShow_String.it, Hello.greeting("World"));
-                          }
+                        final public static Func.U<RealWorld, Short> $main(
+                          final Lazy<PreludeBase.TList<String/*<Character>*/>> arg$1) {
+                          return Prelude.<String/*<Character>*/>println(
+                            PreludeText.IShow_String.it,
+                            Hello.greeting("World"));
+                        }
 
-                            public static void main(final java.lang.String[] argv) {
-                              try {
-                                frege.run.RunTM.argv = argv;
-
-                                  PreludeBase.TST.<Short>performUnsafe($main
-                                         (Thunk.lazy(PreludeArrays.IListSource_JArray.<String/*<Character>*/>toList(argv))).call()
+                        public static void main(final java.lang.String[] argv) {
+                          try {
+                            frege.run.RunTM.argv = argv;
+                            PreludeBase.TST.<Short>performUnsafe($main
+                              (Thunk.lazy(PreludeArrays.IListSource_JArray.
+                                <String/*<Character>*/>toList(argv))).call()
                                     ).call();
-                                frege.runtime.Runtime.stdout.get().close();
-                                frege.runtime.Runtime.stderr.get().close();
-
-                              } finally { frege.run.Concurrent.shutDownIfExists(); }
-                            }
-                          }
+                              frege.runtime.Runtime.stdout.get().close();
+                              frege.runtime.Runtime.stderr.get().close();
+                          } finally { frege.run.Concurrent.shutDownIfExists(); }
+                        }
                         ```
                     </script>
                 </section>
@@ -664,17 +656,24 @@
                 </section>
                 <section data-markdown>
                     <script type="text/template">
-                        ## Context
+                        ## Вопросы транслятора
+
+                        - разрешение имён (классов, функций, переменных)
+                        - импорт пространств имён
+                        - генерация байт-кода
+                        - ограничение на доступные сущности ("safe mode")
+                        - стандартная библиотека
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## Контекст
 
                         - опции компиляции
-                        - генерация байт-кода
                         - стек областей видимости
-
                         - импортированные сборки и пространства имён
                         - доступные функции
                         - доступные поля и переменные
-                        - ограничение на доступные сущности ("safe mode")
-
                         - стандартная библиотека
                     </script>
                 </section>
@@ -757,11 +756,11 @@
                           switch (code[i]) {
                             case '+':
                               ilGenerator.Emit(OpCodes.Ldloc_0);
-                              ilGenerator.EmitCall(OpCodes.Call, GetMethod("Add"), null);
+                              ilGenerator.EmitCall(GetMethod("Add"), null);
                               break;
                             case '-':
                               ilGenerator.Emit(OpCodes.Ldloc_0);
-                              ilGenerator.EmitCall(OpCodes.Call, GetMethod("Dec"), null);
+                              ilGenerator.EmitCall(GetMethod("Dec"), null);
                               break;
                             case '>': // …
                             case '<': // …
@@ -786,7 +785,7 @@
                         ## Reflection.Emit
 
                         Достоинства:
-                        - можно сгенерировать и сразу выполнить байт-код
+                        - можно сгенерировать код и сразу выполнить
                         - можно сохранить код в EXE или DLL
 
                         Недостатки:
@@ -925,6 +924,13 @@
                         <!-- .element: class="fragment" -->
                         6. Делать свои языки программирования – полезно!
                         <!-- .element: class="fragment" -->
+                    </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## Хорошие книги
+
+                        ![](images/dragon-book.jpg) ![](images/cil-assembler.jpg)
                     </script>
                 </section>
                 <section data-markdown class="center">
