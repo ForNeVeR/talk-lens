@@ -5,6 +5,6 @@
   "author": "Friedrich von Never <friedrich@fornever.me>",
   "license": "MIT",
   "dependencies": {
-    "reveal.js": "^3.7.0"
+    "reveal.js": "^3.9.2"
   }
 }
